@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>साखरपुडा निमंत्रण | विक्की संग वर्षा</title>
+  
+  <!-- Google Fonts for Royal Indian Wedding Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Rozha+One&family=Yatra+One&family=Tiro+Devanagari+Marathi:ital@0;1&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --maroon-deep: #4a0404;
+      --maroon-rich: #6b0f1a;
+      --gold-primary: #d4af37;
+      --gold-light: #fbeea8;
+      --gold-dark: #aa771c;
+      --parchment: #fff9e6;
+      --parchment-border: #e6cb95;
+      --text-dark: #3a1515;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #2e0202 0%, #150000 100%);
+      font-family: 'Tiro Devanagari Marathi', serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Rose Petals Shower */
+    #petals-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -20px;
+      background: linear-gradient(135deg, #e63946, #c1121f, #ff758f);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0.85;
+      transform-origin: left bottom;
+      animation: fall linear infinite;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      15% { opacity: 0.9; }
+      100% {
+        transform: translate(120px, 105vh) rotate(540deg) scale(1.1);
+        opacity: 0.1;
+      }
+    }
+
+    /* Mobile Container Frame */
+    .app-viewport {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background: #fffcf2 url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+      box-shadow: 0 0 45px rgba(212, 175, 55, 0.35), 0 10px 40px rgba(0,0,0,0.8);
+      position: relative;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Floating Audio Player Button */
+    .audio-badge {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      background: linear-gradient(135deg, var(--maroon-rich), var(--maroon-deep));
+      border: 2px solid var(--gold-primary);
+      color: var(--gold-light);
+      padding: 7px 14px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      transition: all 0.3s;
+    }
+
+    .audio-badge:active {
+      transform: scale(0.92);
+    }
+
+    .music-waves {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .music-waves span {
+      width: 3px;
+      background: var(--gold-primary);
+      border-radius: 2px;
+      height: 4px;
+    }
+
+    .music-waves.playing span:nth-child(1) { animation: wave 0.8s infinite ease-in-out; }
+    .music-waves.playing span:nth-child(2) { animation: wave 1.1s infinite ease-in-out 0.2s; }
+    .music-waves.playing span:nth-child(3) { animation: wave 0.9s infinite ease-in-out 0.4s; }
+
+    @keyframes wave {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
+    }
+
+    /* COVER SCREEN (Video Reel Style) */
+    #cover-screen {
+      position: fixed;
+      inset: 0;
+      max-width: 440px;
+      margin: 0 auto;
+      z-index: 500;
+      background: radial-gradient(circle at center, #6b0f1a 0%, #350205 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 20px;
+      text-align: center;
+      transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.7s;
+      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+    }
+
+    #cover-screen.opened {
+      transform: translateY(-110%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cover-top-ganesha {
+      width: 90px;
+      filter: drop-shadow(0 4px 10px rgba(212,175,55,0.6));
+      animation: pulseGanesh 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseGanesh {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 4px 10px rgba(212,175,55,0.6)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 6px 16px rgba(251,238,168,0.9)); }
+    }
+
+    .shree-heading {
+      color: var(--gold-light);
+      font-size: 20px;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      font-family: 'Rozha One', serif;
+    }
+
+    .cover-middle-title {
+      margin: auto 0;
+    }
+
+    .cover-invite-sub {
+      color: #ffd8a8;
+      font-size: 15px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .cover-couple-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      color: var(--gold-light);
+      text-shadow: 0 3px 12px rgba(0,0,0,0.7), 0 0 20px rgba(212,175,55,0.7);
+      margin: 12px 0 6px 0;
+    }
+
+    .cover-event-tag {
+      font-family: 'Yatra One', cursive;
+      color: #fff;
+      font-size: 19px;
+      background: rgba(212, 175, 55, 0.25);
+      border: 1px solid var(--gold-primary);
+      padding: 5px 22px;
+      border-radius: 30px;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+
+    /* Wax Seal Button (Reel Style) */
+    .wax-seal-btn {
+      background: radial-gradient(circle, #b91c1c 20%, #7f1d1d 80%);
+      border: 3px solid var(--gold-primary);
+      color: var(--gold-light);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(0,0,0,0.6);
+      animation: pulseSeal 2.2s infinite;
+      transition: transform 0.2s;
+    }
+
+    .wax-seal-btn:active {
+      transform: scale(0.92);
+    }
+
+    @keyframes pulseSeal {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), inset 0 0 12px rgba(0,0,0,0.6); }
+      50% { box-shadow: 0 0 35px rgba(251, 238, 168, 0.9), inset 0 0 16px rgba(0,0,0,0.8); }
+    }
+
+    .wax-seal-btn span.icon {
+      font-size: 32px;
+      margin-bottom: 2px;
+    }
+
+    .wax-seal-btn span.label {
+      font-family: 'Rozha One', serif;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    /* MAIN INVITATION CONTENT */
+    .invitation-body {
+      padding: 60px 18px 40px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .royal-border-top {
+      width: 100%;
+      height: 20px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="20" viewBox="0 0 60 20"><path d="M0,10 Q15,0 30,10 Q45,20 60,10" fill="none" stroke="%23d4af37" stroke-width="2.5"/></svg>') repeat-x;
+      margin-bottom: 12px;
+    }
+
+    .header-mantra {
+      font-family: 'Rozha One', serif;
+      font-size: 19px;
+      color: var(--maroon-rich);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .kuldaivat-mantra {
+      font-family: 'Tiro Devanagari Marathi', serif;
+      font-size: 14px;
+      color: #8c5800;
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+
+    /* Royal Mandap / Arch Artwork */
+    .mandap-stage {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 8px 25px rgba(107, 15, 26, 0.25);
+      margin-bottom: 22px;
+      position: relative;
+      background: #fff;
+    }
+
+    .mandap-stage img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .mandap-stage .caption-tag {
+      position: absolute;
+      bottom: 0;
+      inset-inline: 0;
+      background: linear-gradient(transparent, rgba(65, 5, 12, 0.9) 60%);
+      color: var(--gold-light);
+      padding: 20px 10px 8px 10px;
+      font-family: 'Rozha One', serif;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    /* FARMAN / ROYAL SCROLL CONTAINER */
+    .farman-wrapper {
+      width: 100%;
+      position: relative;
+      margin: 18px 0;
+    }
+
+    .scroll-rod {
+      height: 20px;
+      background: linear-gradient(to right, #4a2800, #d4af37, #fff0aa, #aa771c, #3a1c00);
+      border-radius: 10px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 10;
+    }
+
+    .scroll-rod::before, .scroll-rod::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      width: 18px;
+      height: 30px;
+      background: radial-gradient(circle, #ffeaa7, #b8860b);
+      border-radius: 6px;
+      border: 1px solid #7c5200;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .scroll-rod::before { left: -8px; }
+    .scroll-rod::after { right: -8px; }
+
+    .farman-content {
+      background: #fff9e6 url('https://www.transparenttextures.com/patterns/natural-paper.png');
+      border-left: 5px double var(--gold-primary);
+      border-right: 5px double var(--gold-primary);
+      padding: 30px 18px;
+      box-shadow: inset 0 0 35px rgba(212, 175, 55, 0.2), 0 8px 25px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+      transform-origin: top center;
+      animation: unrollFarman 1.2s ease-out;
+    }
+
+    @keyframes unrollFarman {
+      0% { transform: scaleY(0.2); opacity: 0; }
+      100% { transform: scaleY(1); opacity: 1; }
+    }
+
+    .couple-card {
+      margin: 18px 0;
+      padding: 18px 12px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(107, 15, 26, 0.08);
+    }
+
+    .groom-name, .bride-name {
+      font-family: 'Rozha One', serif;
+      font-size: 26px;
+      color: var(--maroon-rich);
+      margin-bottom: 4px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .family-desc {
+      font-size: 14.5px;
+      color: #4f2a2a;
+      line-height: 1.6;
+    }
+
+    .parents-name {
+      font-weight: 700;
+      color: #2b0307;
+    }
+
+    .wedding-knot {
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .knot-symbol {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+      color: var(--maroon-deep);
+      font-weight: bold;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-family: 'Cinzel Decorative', cursive;
+    }
+
+    /* REEL STYLE INTERACTIVE DATE REVEAL SPINNER */
+    .date-section {
+      width: 100%;
+      margin: 25px 0;
+      padding: 22px 14px;
+      background: linear-gradient(145deg, #4d0a11, #2d0408);
+      border-radius: 20px;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      color: #fff;
+    }
+
+    .date-section-title {
+      font-family: 'Yatra One', cursive;
+      font-size: 19px;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    .reels-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .reel-slot {
+      flex: 1;
+      max-width: 95px;
+      background: #1a0305;
+      border: 2px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 10px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reel-label {
+      font-size: 11px;
+      color: var(--gold-light);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+      width: 80%;
+      padding-bottom: 2px;
+    }
+
+    .reel-val {
+      font-family: 'Rozha One', serif;
+      font-size: 25px;
+      color: #fff;
+      text-shadow: 0 2px 8px var(--gold-primary);
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reel-val.spinning {
+      animation: slotSpin 0.3s linear infinite;
+    }
+
+    @keyframes slotSpin {
+      0% { transform: translateY(-30%); opacity: 0.3; }
+      50% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(30%); opacity: 0.3; }
+    }
+
+    .reveal-date-btn {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-light), var(--gold-dark));
+      border: none;
+      color: #3b0206;
+      font-family: 'Yatra One', cursive;
+      font-size: 15px;
+      padding: 9px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .reveal-date-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* TIMELINE & CEREMONY SCHEDULE */
+    .schedule-box {
+      width: 100%;
+      margin: 22px 0;
+      background: #fff;
+      border: 1px solid var(--parchment-border);
+      border-radius: 18px;
+      padding: 20px 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+
+    .schedule-title {
+      font-family: 'Rozha One', serif;
+      font-size: 21px;
+      color: var(--maroon-rich);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #e4d5b7;
+      text-align: left;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .timeline-icon {
+      width: 44px;
+      height: 44px;
+      background: #fff3db;
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .timeline-info h4 {
+      font-family: 'Rozha One', serif;
+      font-size: 17px;
+      color: var(--maroon-rich);
+    }
+
+    .timeline-info p {
+      font-size: 14px;
+      color: #633e3e;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    /* VENUE SECTION & GOOGLE MAP CARD */
+    .venue-card {
+      width: 100%;
+      background: #fff;
+      border: 2px solid var(--gold-primary);
+      border-radius: 18px;
+      padding: 22px 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .venue-badge {
+      font-family: 'Yatra One', cursive;
+      color: var(--gold-dark);
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .venue-name {
+      font-family: 'Rozha One', serif;
+      font-size: 21px;
+      color: var(--maroon-rich);
+      margin-bottom: 8px;
+    }
+
+    .venue-address {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4a2828;
+      margin-bottom: 18px;
+    }
+
+    .btn-maps {
+      background: linear-gradient(135deg, #1e7e34, #28a745);
+      color: #fff;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.35);
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-maps:active {
+      transform: scale(0.94);
+    }
+
+    /* EMBEDDED MAP MODAL POPUP */
+    #map-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: #fff;
+      width: 100%;
+      max-width: 410px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    .modal-header {
+      background: var(--maroon-rich);
+      color: var(--gold-light);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Rozha One', serif;
+      font-size: 17px;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .map-frame-container {
+      width: 100%;
+      height: 280px;
+      background: #eee;
+    }
+
+    .modal-footer {
+      padding: 14px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    /* COUNTDOWN TIMER WIDGET */
+    .countdown-wrapper {
+      margin: 15px 0 25px 0;
+      width: 100%;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .cd-card {
+      background: #fff;
+      border: 1px solid var(--gold-primary);
+      border-radius: 10px;
+      padding: 8px 4px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+    }
+
+    .cd-num {
+      font-family: 'Rozha One', serif;
+      font-size: 20px;
+      color: var(--maroon-rich);
+    }
+
+    .cd-text {
+      font-size: 10px;
+      font-family: 'Poppins', sans-serif;
+      color: #8c5800;
+      font-weight: 600;
+    }
+
+    /* FOOTER BLESSINGS */
+    .invitation-footer {
+      margin-top: 15px;
+      padding: 20px 10px;
+      border-top: 2px solid var(--gold-primary);
+      width: 100%;
+    }
+
+    .nimantrak-text {
+      font-family: 'Rozha One', serif;
+      font-size: 18px;
+      color: var(--maroon-rich);
+      margin-bottom: 6px;
+    }
+
+    .family-names-footer {
+      font-size: 15px;
+      font-weight: bold;
+      color: #4a1515;
+      margin-bottom: 12px;
+    }
+
+    .hashtag {
+      font-family: 'Great Vibes', cursive;
+      font-size: 32px;
+      color: var(--maroon-rich);
+      margin-top: 10px;
+      display: block;
+      letter-spacing: 1px;
+    }
+
+    /* Custom File Picker Button for MP3 */
+    .song-uploader-box {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 10px;
+      display: inline-block;
+      font-size: 12px;
+      color: #663300;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .song-uploader-box label {
+      cursor: pointer;
+      color: var(--maroon-rich);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Falling Petals Container -->
+  <div id="petals-container"></div>
+
+  <!-- Music Audio Element (Makhmali romantic track configured) -->
+  <audio id="wedding-audio" loop preload="auto">
+    <!-- Plays makhmali.mp3 if in same folder, with fallback stream -->
+    <source src="makhmali.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_c89073a4b6.mp3?filename=indian-instrumental-wedding-111818.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Floating Music Play/Pause Badge -->
+  <div class="audio-badge" id="music-toggle-btn">
+    <div class="music-waves" id="music-waves">
+      <span></span><span></span><span></span>
+    </div>
+    <span id="music-btn-text">मखमली 🎵</span>
+  </div>
+
+  <!-- Mobile View Container -->
+  <div class="app-viewport">
+
+    <!
